@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Public Utility Company</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f4f4f4;
+      }
+
+      header {
+        background-color: #fff;
+        color: #112f4e;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        position: relative;
+      }
+
+      header img {
+        width: 80px;
+      }
+
+      .burger-menu {
+        display: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #112f4e;
+      }
+
+      nav {
+        background-color: #fff;
+        text-align: center;
+        padding: 1rem;
+        border-color: #c5baba;
+      }
+
+      nav a {
+        color: #002f6c;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        transition: color 0.3s ease, background-color 0.3s ease;
+      }
+
+      nav a:hover {
+        background-color: #112f4e;
+        color: #fff;
+        border-radius: 5px;
+      }
+
+      nav ul {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+      }
+
+      nav ul li {
+        margin: 0 10px;
+      }
+
+      main {
+        padding: 3rem 1.5rem;
+        background-color: #f8f9fa;
+        text-align: center;
+      }
+
+      section.intro {
+        margin: 2.5rem;
+      }
+
+      section.intro h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      section.intro p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        max-width: 40rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 0.3rem;
+        background-color: #112f4e;
+        color: #fff;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #1a4f83;
+      }
+
+      section.highlights {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .highlight-card {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.1);
+        width: calc(33.333% - 1rem);
+        max-width: 18.75rem; /* 300px */
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .highlight-card:hover {
+        transform: translateY(-0.5rem);
+      }
+
+      .highlight-card i {
+        font-size: 2.5rem;
+        color: #007bff;
+        margin-bottom: 1rem;
+      }
+
+      .highlight-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .highlight-card p {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.6;
+      }
+
+      section.cta {
+        background-color: #112f4e;
+        color: #fff;
+        padding: 2.5rem;
+        border-radius: 0.5rem;
+        margin-top: 3rem;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      section.cta h2 {
+        font-size: 1.75rem;
+        margin-bottom: 1.25rem;
+      }
+
+      section.cta p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .cta-button {
+        padding: 0.75rem 2rem;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 1.1rem;
+        text-decoration: none;
+        border-radius: 0.3rem;
+        transition: background-color 0.3s;
+      }
+
+      .cta-button:hover {
+        background-color: #0056b3;
+      }
+
+      /* Modal Styles */
+      #open-modal {
+        background-color: #007bff;
+      }
+
+      button:hover {
+        opacity: 1;
+      }
+
+      #fade {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 5;
+      }
+
+      #modal {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        max-width: 90%;
+        background-color: #fff;
+        padding: 1.2rem;
+        border-radius: 0.5rem;
+        z-index: 10;
+      }
+
+      #fade,
+      #modal {
+        transition: 0.5s;
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .modal-body p {
+        margin-bottom: 1rem;
+      }
+
+      #modal.hide,
+      #fade.hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #modal.hide {
+        top: 0;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      form label {
+        margin-top: 1rem;
+        font-size: 1rem;
+        color: #fff;
+      }
+
+      form input,
+      form textarea {
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.3rem;
+      }
+
+      form button {
+        margin-top: 1.5rem;
+        background-color: #007bff;
+        color: #fff;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 0.3rem;
+        cursor: pointer;
+      }
+
+      form button:hover {
+        background-color: #0056b3;
+      }
+
+      footer {
+        background-color: #112f4e;
+        color: #fff;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+      }
+
+      footer a {
+        color: #cce0ff;
+        text-decoration: none;
+        margin: 0 10px;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.4rem;
+        }
+
+        section.highlights {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .highlight-card {
+          width: 100%;
+        }
+
+        section.intro h2 {
+          font-size: 1.75rem;
+        }
+
+        section.intro p {
+          font-size: 1.1rem;
+        }
+
+        section.cta h2 {
+          font-size: 1.5rem;
+        }
+
+        section.cta p {
+          font-size: 1.1rem;
+        }
+
+        .burger-menu {
+          display: block;
+        }
+
+        nav ul {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          background-color: #fff;
+        }
+
+        nav ul.active {
+          display: flex;
+        }
+
+        nav ul li {
+          margin: 0;
+          padding: 1rem;
+          border-bottom: 1px solid #ccc;
+        }
+
+        nav a {
+          display: block;
+          padding: 1rem;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 425px) {
+        h1 {
+          font-size: 16px;
+        }
+
+        .usa-logo {
+          width: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      />
+      <title>Public Utility Company</title>
+    </head>
+    <body>
+      <header>
+        <img
+          src="https://www.usa.gov/themes/custom/usagov/images/USAGov_Logo_80px.png"
+          alt="USAGov Logo"
+          class="usa-logo"
+        />
+        <h1>Public Utility Company</h1>
+        <div class="burger-menu" id="burgerMenu">
+          <i class="fas fa-bars"></i>
+        </div>
+      </header>
+
+      <nav>
+        <ul id="navLinks">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Report an Issue</a></li>
+        </ul>
+      </nav>
+
+      <main>
+        <section class="intro">
+          <h2>Making government services easier to find</h2>
+          <p>
+            USA.gov helps you locate and understand government benefits,
+            programs, and information.
+          </p>
+          <button id="openModal">Learn More</button>
+
+          <div id="fade" class="hide"></div>
+          <div id="modal" class="hide">
+            <div class="modal-header">
+              <h2>Our Services</h2>
+              <button id="close-modal">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic,
+                quam? Quas accusantium id cupiditate iste veritatis repudiandae
+                odio dolore voluptas. Eum, deserunt quod. Sit similique
+                laudantium assumenda repellat vel necessitatibus.
+              </p>
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius
+                alias voluptate doloremque, totam inventore autem quis non
+                error! Earum ullam fuga, officiis voluptates pariatur unde et
+                adipisci ducimus non obcaecati.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="highlights">
+          <div class="highlight-card">
+            <i class="fa-solid fa-check-to-slot"></i>
+            <h3>Voting and elections</h3>
+            <p>
+              Find answers to common questions about voting in the United
+              States.
+            </p>
+          </div>
+          <div class="highlight-card">
+            <i class="fa-solid fa-id-card"></i>
+            <h3>Immigration and U.S citizenship</h3>
+            <p>
+              Learn about U.S. residency, Green Cards, citizenship requirements,
+              and related issues.
+            </p>
+          </div>
+          <div class="highlight-card">
+            <i class="fa-solid fa-suitcase"></i>
+            <h3>Jobs, labor laws, and unemployment</h3>
+            <p>
+              Get resources for finding a job. Learn about unemployment
+              insurance and important labor laws.
+            </p>
+          </div>
+        </section>
+
+        <section class="cta">
+          <h2>How Can We Assist You?</h2>
+          <p>
+            Whether you're looking for information about your services, need
+            help with a utility issue, or want to learn more about our
+            environmental initiatives, we are here to support you.
+          </p>
+          <form id="form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" />
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" />
+
+            <label for="message">Message:</label>
+            <textarea id="message" rows="4"></textarea>
+
+            <button type="submit">Send</button>
+          </form>
+        </section>
+      </main>
+
+      <footer>
+        <p>© 2023 Public Utility Company</p>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </footer>
+
+      <script>
+        const openModalButton = document.querySelector("#openModal");
+        const closeModalButton = document.querySelector("#close-modal");
+        const modal = document.querySelector("#modal");
+        const fade = document.querySelector("#fade");
+
+        const toggleModal = () => {
+          modal.classList.toggle("hide");
+          fade.classList.toggle("hide");
+        };
+
+        [openModalButton, closeModalButton, fade].forEach((el) => {
+          el.addEventListener("click", toggleModal);
+        });
+
+        const form = document.querySelector("#form");
+        const nameInput = document.querySelector("#name");
+        const emailInput = document.querySelector("#email");
+        const messageInput = document.querySelector("#message");
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          if (nameInput.value && emailInput.value && messageInput.value) {
+            console.log("Name:", nameInput.value);
+            console.log("Email:", emailInput.value);
+            console.log("Message:", messageInput.value);
+            alert("Thank you for your message!");
+            form.reset();
+          } else {
+            alert("Please fill in all fields.");
+          }
+        });
+
+        const burgerMenu = document.getElementById("burgerMenu");
+        const navLinks = document.getElementById("navLinks");
+
+        burgerMenu.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+        });
+      </script>
+    </body>
+  </html>
+</html>
